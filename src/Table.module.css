@@ -70,3 +70,11 @@
   position: absolute;
   right: 0;
 }
+
+.SubmitButton:hover {
+  transform: translateY(-1px);
+}
+
+.SubmitButton:active {
+  transform: translateY(0);
+}

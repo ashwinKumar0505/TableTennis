@@ -14,6 +14,9 @@ class SavedSchedule extends React.Component {
           this.setState({
             choosedOpponents: Response.val().choosedOpponents,
             choosedPlayers: Response.val().choosedPlayers,
+            points:Response.val().points,
+            rounds:Response.val().rounds,
+            details:Response.val().details
           });
           else{
             this.setState({
@@ -25,7 +28,10 @@ class SavedSchedule extends React.Component {
   state = {
     choosedOpponents: [],
     choosedPlayers: [],
-    data:"loading....."
+    data:"loading.....",
+    points:"",
+    rounds:"",
+    details:{}
   };
   deleteSchedule = () => {
     const confirm = window.prompt(
@@ -50,7 +56,6 @@ class SavedSchedule extends React.Component {
   };
 
   render() {
-    console.log(this.state.choosedPlayers);
 
     let TableToShow = null;
     if (this.state.choosedPlayers.length>0) {
@@ -65,6 +70,7 @@ class SavedSchedule extends React.Component {
                 choosedPlayers={player}
                 rounds={index + 1}
                 points={this.state.points}
+                details={this.state.details}
               />
             );
           })}

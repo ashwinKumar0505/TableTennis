@@ -13,7 +13,7 @@ class Schedule extends React.Component {
     showTable: false,
     rounds: "",
     points: "",
-    loading:false,
+    loading: false,
   };
 
   checkHandler = () => {
@@ -24,6 +24,18 @@ class Schedule extends React.Component {
       alert("please Fill the details to proceed");
     }
     let i = 1;
+
+    const choosedPlayers=this.state.choosedPlayers;
+    const choosedOpponents=this.state.choosedOpponents;
+
+    choosedPlayers.length=0;
+    choosedOpponents.length=0;
+
+     this.setState({
+      choosedPlayers:choosedPlayers,
+      choosedOpponents:choosedOpponents
+    })
+    
     while (i <= this.state.rounds) {
       this.generateHandler();
       i++;
@@ -230,7 +242,6 @@ class Schedule extends React.Component {
         players.splice(players.indexOf(choosedOpponent), 1);
       }
     }
-
     let finalListPlayers = this.state.choosedPlayers;
     let finalListOpponents = this.state.choosedOpponents;
     finalListPlayers.push(choosedOpponents);
@@ -243,7 +254,6 @@ class Schedule extends React.Component {
   };
 
   changeHandler = event => {
-    console.log(event.target.value);
     this.setState({
       playersTotal: event.target.value,
     });
@@ -258,12 +268,14 @@ class Schedule extends React.Component {
       alert("sorry , There should be atleast 2 players");
       return;
     }
-    let newPlayers = [];
-    for (let i = 0; i < this.state.playersTotal; i++) {
+    let newPlayers = [...this.state.players];
+    for (let i = newPlayers.length; i < this.state.playersTotal; i++) {
       newPlayers.push("");
     }
     this.setState({
       players: newPlayers,
+      choosedPlayers:[],
+      choosedOpponents:[]
     });
   };
 
@@ -279,16 +291,16 @@ class Schedule extends React.Component {
       players: playersChange,
     });
   };
-  closeModalHandler=()=>{
+  closeModalHandler = () => {
     this.setState({
-      loading:false
-    })
-  }
+      loading: false,
+    });
+  };
 
   checkSchedule = () => {
     this.setState({
-      loading:true
-    })
+      loading: true,
+    });
     fireBase
       .database()
       .ref()
@@ -297,8 +309,8 @@ class Schedule extends React.Component {
         const value = Response.val();
         if (value) {
           this.setState({
-            loading:false
-          })
+            loading: false,
+          });
           const reschedule = window.prompt(
             "You already have a schedule.To reschedule type yes else no",
           );
@@ -326,14 +338,28 @@ class Schedule extends React.Component {
   };
 
   saveSchedule = () => {
+
+    const details={};
+    this.state.players.map(player=>{
+      details[player]={
+        name:player,
+        score:0,
+        totalMatches:0,
+        matchesWon:0,
+        matchesLost:0,
+        win:[],
+        lose:[]
+      }
+    })
     fireBase
       .database()
       .ref()
       .set({
         choosedPlayers: this.state.choosedPlayers,
         choosedOpponents: this.state.choosedOpponents,
-        rounds:this.state.rounds,
-        points:this.state.points
+        rounds: this.state.rounds,
+        points: this.state.points,
+        details:details
       })
       .then(Response => {
         alert("The matches are scheduled");
@@ -349,7 +375,7 @@ class Schedule extends React.Component {
       showTable: false,
       rounds: "",
       points: "",
-      loading:false
+      loading: false,
     });
   };
 
@@ -377,7 +403,7 @@ class Schedule extends React.Component {
               return (
                 <input
                   type="text"
-                  placeholder={"player " + (index+1)}
+                  placeholder={"player " + (index + 1)}
                   className="players"
                   key={index}
                   onChange={event => this.playersHandler(index, event)}
@@ -432,7 +458,7 @@ class Schedule extends React.Component {
             SAVE THIS SCHEDULE
           </button>
         ) : null}
-        <Modal show={this.state.loading} close={this.closeModalHandler}/>
+        <Modal show={this.state.loading} close={this.closeModalHandler} />
       </div>
     );
   }
