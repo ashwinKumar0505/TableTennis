@@ -1,0 +1,111 @@
+.Schedule {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px;
+  z-index: 0;
+}
+
+.generatePlayers {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.totalPlayers {
+  border: 0;
+  padding: 10px 10px 5px 5px;
+  border: 3px solid white;
+  font-size: 15px;
+  margin: 10px;
+  width: 250px;
+  outline: none;
+  transition: border 0.4s;
+}
+
+.totalPlayers:focus {
+  border: 3px solid #669934;
+  ;
+}
+
+.generate,
+.schedule,
+.saveSchedule {
+  padding: 10px 15px;
+  background-color: #00adb5;
+  border: none;
+  color: white;
+  font-weight: 700;
+  margin: 10px;
+  outline: none;
+  cursor: pointer;
+  transform: translateY(0);
+  transition: transform 0.3s;
+}
+
+.generate:hover,
+.saveSchedule:hover {
+  transform: translateY(-3px);
+  box-shadow: white 1px 3px 4px 1px;
+}
+
+.generate:active,
+.saveSchedule:active {
+  transform: translateY(0);
+
+}
+
+.schedule:active {
+  transform: translateY(0);
+
+}
+
+.schedule:hover {
+  transform: translateY(-3px);
+  box-shadow: white 1px 3px 4px 1px;
+
+}
+
+.schedule {
+  margin-bottom: 20px;
+}
+
+
+.allPlayers {
+  display: flex;
+  width: 50%;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.players,
+.rounds,
+.points {
+  border: 0;
+  border: 3px solid white;
+  padding: 10px 10px 5px 5px;
+  font-size: 15px;
+  margin: 10px;
+  width: 250px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.players:focus,
+.rounds:focus,
+.points:focus {
+  border: 3px solid #669934;
+  ;
+}
+
+.RoundsAndPoints {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}

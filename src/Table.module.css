@@ -1,0 +1,72 @@
+.Table {
+  width: 90%;
+}
+
+.Table h2 {
+  text-align: center;
+}
+
+.TableData {
+  overflow-x: auto;
+
+}
+
+.TableData table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+.Table td,
+.Table tr {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  text-align: center;
+  height: 35px
+}
+
+.Table td:nth-child(3) {
+  width: 46%
+}
+
+.Table th {
+  text-align: center;
+  height: 50px;
+}
+
+.Table tr:nth-child(even) {
+  background-color: #dddddd;
+}
+.Table tr:nth-child(odd) {
+  background-color: white;
+}
+
+
+.Scores {
+  display: flex;
+  padding-left: 20px;
+  position: relative;
+}
+
+.Scores input {
+  width: 8%;
+  height: 20px;
+  outline: none;
+  margin: 0 10px;
+}
+
+.SubmitButton {
+  padding: 10px 15px;
+  background-color: #00adb5;
+  border: none;
+  color: white;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+  transform: translateY(0);
+  transition: tranform 0.3s;
+  position: absolute;
+  right: 0;
+}

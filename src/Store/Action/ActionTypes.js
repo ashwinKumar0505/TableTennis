@@ -1,0 +1,1 @@
+export const STORE_THE_RESULTS="STORE_THE_RESULTS"
