@@ -105,27 +105,39 @@ const Table = props => {
             ];
           }
         }
-        if (details.scoreDetails) {
-          details.scoreDetails = [
-            ...details.scoreDetails,
-            {
-              playerScore: playerScore[index],
-              opponentScore: opponentScore[index],
-            },
-          ];
-        } else {
-          details.scoreDetails = [
-            {
-              playerScore: playerScore[index],
-              opponentScore: opponentScore[index],
-            },
-          ];
-        }
+        // if (details.scoreDetails) {
+        //   details.scoreDetails = [
+        //     ...details.scoreDetails,
+        //     {
+        //       playerScore: playerScore[index],
+        //       opponentScore: opponentScore[index],
+        //     },
+        //   ];
+        // } else {
+        //   details.scoreDetails = [
+        //     {
+        //       playerScore: playerScore[index],
+        //       opponentScore: opponentScore[index],
+        //     },
+        //   ];
+        // }
+
+        const newScoreDetails = details.scoreDetails || [];
+        newScoreDetails[index] = {
+          playerScore: playerScore[index],
+          opponentScore: opponentScore[index],
+        };
+        details.scoreDetails = newScoreDetails;
         fireBase
           .database()
           .ref()
           .child("details")
-          .set(details);
+          .set(details)
+          .then(() => {
+            alert("Submitted Succesful");
+            props.changeDetails(details);
+          })
+          .catch(error => alert(error));
       } else {
         alert("Please Enter Both Opponent and Player Scores");
       }
@@ -139,71 +151,115 @@ const Table = props => {
         <h2>Round {props.rounds}</h2>
         <div className={classes.TableData}>
           <table>
-            <tr>
-              <th>MATCH NUMBER</th>
-              <th>MATCH</th>
-              {props.showPoints ? (
-                <th>SCORE ( The Game point : {props.points} )</th>
-              ) : null}
-            </tr>
-            {props.choosedPlayers.map((player, index) => {
-              return (
-                <tr>
-                  <td>{index + 1}</td>
-                  <td>
-                    {player.toUpperCase() +
-                      " vs " +
-                      props.choosedOpponents[index].toUpperCase()}
-                  </td>
-                  {console.log(props.details)}
-                  {props.showPoints ? (
+            <tbody>
+              <tr>
+                <th>MATCH NUMBER</th>
+                <th>MATCH</th>
+                {props.showPoints ? (
+                  <th>SCORE ( The Game point : {props.points} )</th>
+                ) : null}
+              </tr>
+              {props.choosedPlayers.map((player, index) => {
+                return (
+                  <tr>
+                    <td>{index + 1}</td>
                     <td>
-                      <div className={classes.Scores}>
-                        {player + " score:"}
-                        <input
-                          type="text"
-                          className={classes.PlayerScore}
-                          onChange={event => playerScoreHandler(event, index)}
-                          value={
-                            props.details.scoreDetails
-                              ? props.details.scoreDetails[index]
-                                ? props.details.scoreDetails[index].playerScore
-                                : playerScore[index]
-                              : playerScore[index]
-                          }
-                        />
-                        {props.choosedOpponents[index] + " score:"}
-                        <input
-                          type="text"
-                          className={classes.PlayerScore}
-                          onChange={event => opponentScoreHandler(event, index)}
-                          value={
-                            props.details.scoreDetails
-                              ? props.details.scoreDetails[index]
-                                ? props.details.scoreDetails[index]
-                                    .opponentScore
-                                : opponentScore[index]
-                              : opponentScore[index]
-                          }
-                        />
-                        <button
-                          className={classes.SubmitButton}
-                          onClick={() =>
-                            submitButtonHandler(
-                              index,
-                              player,
-                              props.choosedOpponents[index],
-                            )
-                          }
-                        >
-                          Submit
-                        </button>
-                      </div>
+                      {player.toUpperCase() +
+                        " vs " +
+                        props.choosedOpponents[index].toUpperCase()}
                     </td>
-                  ) : null}
-                </tr>
-              );
-            })}
+                    {props.showPoints ? (
+                      <td>
+                        <div className={classes.Scores}>
+                          {player + " score:"}
+                          <input
+                            type="text"
+                            className={classes.PlayerScore}
+                            onChange={event =>
+                              playerScoreHandler(
+                                event,
+                                index + (props.rounds - 1) * props.totalMatches,
+                              )
+                            }
+                            value={
+                              props.details.scoreDetails
+                                ? props.details.scoreDetails[
+                                    index +
+                                      (props.rounds - 1) * props.totalMatches
+                                  ]
+                                  ? props.details.scoreDetails[
+                                      index +
+                                        (props.rounds - 1) * props.totalMatches
+                                    ].playerScore
+                                  : playerScore[
+                                      index +
+                                        (props.rounds - 1) * props.totalMatches
+                                    ]
+                                : playerScore[
+                                    index +
+                                      (props.rounds - 1) * props.totalMatches
+                                  ]
+                            }
+                          />
+                          {props.choosedOpponents[index] + " score:"}
+                          <input
+                            type="text"
+                            className={classes.PlayerScore}
+                            onChange={event =>
+                              opponentScoreHandler(
+                                event,
+                                index + (props.rounds - 1) * props.totalMatches,
+                              )
+                            }
+                            value={
+                              props.details.scoreDetails
+                                ? props.details.scoreDetails[
+                                    index +
+                                      (props.rounds - 1) * props.totalMatches
+                                  ]
+                                  ? props.details.scoreDetails[
+                                      index +
+                                        (props.rounds - 1) * props.totalMatches
+                                    ].opponentScore
+                                  : opponentScore[
+                                      index +
+                                        (props.rounds - 1) * props.totalMatches
+                                    ]
+                                : opponentScore[
+                                    index +
+                                      (props.rounds - 1) * props.totalMatches
+                                  ]
+                            }
+                          />
+                          <button
+                            className={classes.SubmitButton}
+                            onClick={() =>
+                              submitButtonHandler(
+                                index + (props.rounds - 1) * props.totalMatches,
+                                player,
+                                props.choosedOpponents[index],
+                              )
+                            }
+                            disabled={
+                              props.details.scoreDetails
+                                ? props.details.scoreDetails[
+                                    index +
+                                      (props.rounds - 1) * props.totalMatches
+                                  ]
+                                  ? true
+                                  : false
+                                : false
+                            }
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </td>
+                    ) : null}
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </div>
       </div>

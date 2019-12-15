@@ -31,10 +31,3 @@
   transform: translateY(0);
 
 }
-.Table{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}

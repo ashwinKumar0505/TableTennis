@@ -1,14 +1,12 @@
 .Table {
-  width: 90%;
-}
-
-.Table h2 {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .TableData {
-  overflow-x: auto;
-
+  width: 1200px;
 }
 
 .TableData table {
@@ -77,4 +75,7 @@
 
 .SubmitButton:active {
   transform: translateY(0);
+}
+.SubmitButton:disabled{
+  background-color: #c2e3e4;
 }

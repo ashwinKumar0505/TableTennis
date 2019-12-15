@@ -14,6 +14,7 @@ class Schedule extends React.Component {
     rounds: "",
     points: "",
     loading: false,
+    totalMatches:""
   };
 
   checkHandler = () => {
@@ -68,6 +69,10 @@ class Schedule extends React.Component {
     }
 
     const totalMatches = fact(totalPlayers - 1) * totalRounds;
+
+    this.setState({
+        totalMatches:totalMatches
+    })
 
     players.map(player => {
       let currentPlayer = player;
@@ -359,7 +364,8 @@ class Schedule extends React.Component {
         choosedOpponents: this.state.choosedOpponents,
         rounds: this.state.rounds,
         points: this.state.points,
-        details:details
+        details:details,
+        totalMatches:this.state.totalMatches
       })
       .then(Response => {
         alert("The matches are scheduled");
