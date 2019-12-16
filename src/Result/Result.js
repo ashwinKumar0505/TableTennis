@@ -16,18 +16,53 @@ class Result extends React.Component {
       .once("value")
       .then(Response => {
         if (Response.val()) {
+          const detailsObject = Response.val();
+          delete detailsObject.scoreDetails;
+          const details = Object.values(detailsObject);
+          details.sort((a, b) => {
+            if (a.matchesWon > b.matchesWon) {
+              return -1;
+            } else if (a.matchesWon === b.matchesWon) {
+              if (a.pointDifference > b.pointDifference) {
+                return -1;
+              } else if (a.pointDifference === b.pointDifference) {
+                if (a.score > b.score) {
+                  return -1;
+                } else if (a.score === b.score) {
+                  if (a.recieved > b.recieved) {
+                    return -1;
+                  } else if (a.recieved === b.recieved) {
+                    if (a.name > b.name) {
+                      return -1;
+                    } else {
+                      return 1;
+                    }
+                  } else {
+                    return 1;
+                  }
+                } else {
+                  return 1;
+                }
+              } else {
+                return 1;
+              }
+            } else {
+              return 1;
+            }
+          });
+
           this.setState({
-            details: Response.val(),
+            details: details,
           });
         } else {
           this.setState({
-            data: "Match is not scheduled yet",
+            data: "No match have been scheduled yet!!",
           });
         }
       });
   }
   state = {
-    details: {},
+    details: [],
     data: "Loading...",
     showMoreDetailsName: "",
   };
@@ -46,26 +81,28 @@ class Result extends React.Component {
     const details = this.state.details;
     let value;
     if (details) {
-      value = Object.keys(details).map(key => {
-        if (!details[key].name) {
+      value = details.map((detail, index) => {
+        if (!details[index].name) {
           return null;
         }
         const playerPoints = (
           <React.Fragment>
             {" "}
             <tr>
-              <td>{details[key].name}</td>
-              <td>{details[key].totalMatches}</td>
-              <td>{details[key].matchesWon}</td>
-              <td>{details[key].matchesLost}</td>
+              <td>{details[index].name}</td>
+              <td>{details[index].totalMatches}</td>
+              <td>{details[index].matchesWon}</td>
+              <td>{details[index].matchesLost}</td>
+              <td>{details[index].score}</td>
+              <td>{details[index].recieved}</td>
               <td style={{ position: "relative" }}>
-                <p>{details[key].score}</p>
+                <p>{details[index].pointDifference}</p>
                 <p
                   className={classes.DownArrow}
-                  onClick={() => this.showMoreDetails(details[key].name)}
+                  onClick={() => this.showMoreDetails(details[index].name)}
                 >
-                  {details[key].win || details[key].lose ? (
-                    this.state.showMoreDetailsName === details[key].name ? (
+                  {details[index].win || details[index].lose ? (
+                    this.state.showMoreDetailsName === details[index].name ? (
                       <IoIosArrowDropupCircle />
                     ) : (
                       <IoIosArrowDropdownCircle />
@@ -74,12 +111,12 @@ class Result extends React.Component {
                 </p>
               </td>
             </tr>
-            {this.state.showMoreDetailsName === details[key].name &&
-            (details[key].win || details[key].lose) ? (
+            {this.state.showMoreDetailsName === details[index].name &&
+            (details[index].win || details[index].lose) ? (
               <tr className={classes.WinLoseDetails}>
-                <td colSpan="5">
-                  {details[key].win
-                    ? details[key].win.map(match => {
+                <td colSpan="8">
+                  {details[index].win
+                    ? details[index].win.map(match => {
                         return (
                           <div style={{ paddingBottom: "10px" }}>
                             Won against {match.opponent} by {match.Difference}{" "}
@@ -88,8 +125,8 @@ class Result extends React.Component {
                         );
                       })
                     : null}
-                  {details[key].lose
-                    ? details[key].lose.map(match => {
+                  {details[index].lose
+                    ? details[index].lose.map(match => {
                         return (
                           <div style={{ paddingBottom: "10px" }}>
                             Lost against {match.opponent} by {match.Difference}{" "}
@@ -108,7 +145,6 @@ class Result extends React.Component {
     } else {
       value = <p>No match is scheduled</p>;
     }
-    console.log(details);
     return (
       <div className={classes.OuterResultDiv}>
         <div className={classes.InnerResultDiv}>
@@ -118,18 +154,20 @@ class Result extends React.Component {
               <table>
                 <tbody>
                   <tr>
-                    <th>Players</th>
-                    <th>Matches Player</th>
+                    <th>Name</th>
+                    <th>Total Matches</th>
                     <th>Won</th>
                     <th>Lost</th>
-                    <th>Total Score</th>
+                    <th>PS</th>
+                    <th>PR</th>
+                    <th>PD</th>
                   </tr>
                   {value}
                 </tbody>
               </table>
             </div>
           ) : (
-            <div style={{ padding: "20px" }}>{this.state.data}</div>
+            <h3 style={{ padding: "20px" }}>{this.state.data}</h3>
           )}
         </div>
       </div>

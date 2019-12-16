@@ -62,8 +62,8 @@
 
 .DownArrow {
   position: absolute;
-  top: 6px;
-  right: 40px;
+  top: 4px;
+  right: 13px;
   font-size: 20px;
   cursor: pointer;
 }

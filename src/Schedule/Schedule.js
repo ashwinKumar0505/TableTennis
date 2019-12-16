@@ -349,6 +349,8 @@ class Schedule extends React.Component {
       details[player]={
         name:player,
         score:0,
+        recieved:0,
+        pointDifference:0,
         totalMatches:0,
         matchesWon:0,
         matchesLost:0,

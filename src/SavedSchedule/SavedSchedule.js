@@ -58,7 +58,6 @@ class SavedSchedule extends React.Component {
   };
   
   changeDetails=(details)=>{
-    console.log("here")
     this.setState({
       details:details
     })
