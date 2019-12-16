@@ -9,16 +9,13 @@
 .InnerResultDiv {
   background-color: white;
   width: 1200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
 }
 
 .InnerResultDiv h1 {
   color: black;
   font-size: 20px;
+  margin: 20px auto;
+  text-align: center;
 }
 
 .PlayerPoints table {
@@ -44,11 +41,8 @@
 }
 
 .PlayerPoints {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 90%;
+  margin: auto;
 }
 
 .ResultDetails {
@@ -74,6 +68,14 @@
   padding: 20px 0;
   animation-name: upToDown;
   animation-duration: 1s;
+}
+.FullForm{
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+}
+.FullForm span{
+  font-weight: 600;
 }
 
 @keyframes upToDown{

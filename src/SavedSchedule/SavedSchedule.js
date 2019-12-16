@@ -36,10 +36,6 @@ class SavedSchedule extends React.Component {
     totalMatches:""
   };
   deleteSchedule = () => {
-    const confirm = window.prompt(
-      "Do you really want to delete this schedule...yes to continue",
-    );
-    if (confirm === "yes") {
       fireBase
         .database()
         .ref()
@@ -52,10 +48,7 @@ class SavedSchedule extends React.Component {
             data:"No match have been scheduled yet!!"
           });
         });
-    } else {
-      return;
-    }
-  };
+    } 
   
   changeDetails=(details)=>{
     this.setState({

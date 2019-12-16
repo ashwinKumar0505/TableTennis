@@ -165,9 +165,14 @@ class Result extends React.Component {
                   {value}
                 </tbody>
               </table>
+              <div className={classes.FullForm}>
+                <p><span>PS</span>-->Points Scored</p>
+                <p><span>PR</span>-->Points Recieved</p>
+                <p><span>PD</span>-->Points Difference</p>
+            </div>
             </div>
           ) : (
-            <h3 style={{ padding: "20px" }}>{this.state.data}</h3>
+            <h3 style={{ padding: "20px",textAlign:"center" }}>{this.state.data}</h3>
           )}
         </div>
       </div>

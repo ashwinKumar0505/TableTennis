@@ -14,29 +14,43 @@ class Schedule extends React.Component {
     rounds: "",
     points: "",
     loading: false,
-    totalMatches:""
+    totalMatches: "",
   };
 
   checkHandler = () => {
     if (this.state.players.includes("")) {
       alert("Please  Enter All The Player Names");
+      return;
     }
     if (this.state.rounds === "" || this.state.points === "") {
       alert("please Fill the details to proceed");
+      return;
+    }
+    let newPlayers=[...this.state.players]
+    newPlayers=newPlayers.map(player=>player.toLowerCase())
+    let duplicate = false;
+    newPlayers.filter((player, index) => {
+      if (newPlayers.indexOf(player) !== index) {
+        duplicate = true;
+      }
+    });
+    if (duplicate) {
+      alert("No duplicate names");
+      return;
     }
     let i = 1;
 
-    const choosedPlayers=this.state.choosedPlayers;
-    const choosedOpponents=this.state.choosedOpponents;
+    const choosedPlayers = this.state.choosedPlayers;
+    const choosedOpponents = this.state.choosedOpponents;
 
-    choosedPlayers.length=0;
-    choosedOpponents.length=0;
+    choosedPlayers.length = 0;
+    choosedOpponents.length = 0;
 
-     this.setState({
-      choosedPlayers:choosedPlayers,
-      choosedOpponents:choosedOpponents
-    })
-    
+    this.setState({
+      choosedPlayers: choosedPlayers,
+      choosedOpponents: choosedOpponents,
+    });
+
     while (i <= this.state.rounds) {
       this.generateHandler();
       i++;
@@ -71,8 +85,8 @@ class Schedule extends React.Component {
     const totalMatches = fact(totalPlayers - 1) * totalRounds;
 
     this.setState({
-        totalMatches:totalMatches
-    })
+      totalMatches: totalMatches,
+    });
 
     players.map(player => {
       let currentPlayer = player;
@@ -279,8 +293,8 @@ class Schedule extends React.Component {
     }
     this.setState({
       players: newPlayers,
-      choosedPlayers:[],
-      choosedOpponents:[]
+      choosedPlayers: [],
+      choosedOpponents: [],
     });
   };
 
@@ -343,21 +357,20 @@ class Schedule extends React.Component {
   };
 
   saveSchedule = () => {
-
-    const details={};
-    this.state.players.map(player=>{
-      details[player]={
-        name:player,
-        score:0,
-        recieved:0,
-        pointDifference:0,
-        totalMatches:0,
-        matchesWon:0,
-        matchesLost:0,
-        win:[],
-        lose:[]
-      }
-    })
+    const details = {};
+    this.state.players.map(player => {
+      details[player] = {
+        name: player,
+        score: 0,
+        recieved: 0,
+        pointDifference: 0,
+        totalMatches: 0,
+        matchesWon: 0,
+        matchesLost: 0,
+        win: [],
+        lose: [],
+      };
+    });
     fireBase
       .database()
       .ref()
@@ -366,8 +379,8 @@ class Schedule extends React.Component {
         choosedOpponents: this.state.choosedOpponents,
         rounds: this.state.rounds,
         points: this.state.points,
-        details:details,
-        totalMatches:this.state.totalMatches
+        details: details,
+        totalMatches: this.state.totalMatches,
       })
       .then(Response => {
         alert("The matches are scheduled");
@@ -399,6 +412,9 @@ class Schedule extends React.Component {
             value={this.state.playersTotal}
             name="players"
             className="totalPlayers"
+            onKeyDown={event => {
+              if (event.key === "Enter") this.generatePlayers();
+            }}
           />
           <button onClick={this.generatePlayers} className="generate">
             GENERATE
@@ -415,6 +431,9 @@ class Schedule extends React.Component {
                   className="players"
                   key={index}
                   onChange={event => this.playersHandler(index, event)}
+                  onKeyDown={event => {
+                    if (event.key === "Enter") this.checkHandler();
+                  }}
                 />
               );
             })}
@@ -431,6 +450,9 @@ class Schedule extends React.Component {
                 onChange={event =>
                   this.setState({ rounds: event.target.value })
                 }
+                onKeyDown={event => {
+                  if (event.key === "Enter") this.checkHandler();
+                }}
               />
               <input
                 type="text"
@@ -439,6 +461,9 @@ class Schedule extends React.Component {
                 onChange={event =>
                   this.setState({ points: event.target.value })
                 }
+                onKeyDown={event => {
+                  if (event.key === "Enter") this.checkHandler();
+                }}
               />
             </div>
           </div>

@@ -45,6 +45,9 @@ class Table extends React.Component {
   submitButtonHandler = (index, player, opponent) => {
     const playerScore = [...this.state.playerScore];
     const opponentScore = [...this.state.opponentScore];
+    console.log(playerScore[index]);
+    console.log(opponentScore[index]);
+
     const details = this.state.ActDetails;
 
     if (playerScore[index] && opponentScore[index]) {
@@ -307,6 +310,16 @@ class Table extends React.Component {
                                     : false
                                   : false
                               }
+                              onKeyDown={event => {
+                                if (event.key === "Enter")
+                                  this.submitButtonHandler(
+                                    index +
+                                      (this.props.rounds - 1) *
+                                        this.props.totalMatches,
+                                    player,
+                                    this.props.choosedOpponents[index],
+                                  );
+                              }}
                             />
                             {this.props.choosedOpponents[index] + " score:"}
                             <input
@@ -338,10 +351,23 @@ class Table extends React.Component {
                                     : false
                                   : false
                               }
+                              onKeyDown={event => {
+                                if (event.key === "Enter")
+                                  this.submitButtonHandler(
+                                    index +
+                                      (this.props.rounds - 1) *
+                                        this.props.totalMatches,
+                                    player,
+                                    this.props.choosedOpponents[index],
+                                  );
+                              }}
                             />
-                            {/* {console.log(this.state.ActDetails.scoreDetails[index])} */}
                             {this.state.ActDetails.scoreDetails ? (
-                              this.state.ActDetails.scoreDetails[index] ? (
+                              this.state.ActDetails.scoreDetails[
+                                index +
+                                  (this.props.rounds - 1) *
+                                    this.props.totalMatches
+                              ] ? (
                                 <button
                                   className={classes.EditButton}
                                   onClick={() =>
