@@ -45,131 +45,125 @@ class Table extends React.Component {
   submitButtonHandler = (index, player, opponent) => {
     const playerScore = [...this.state.playerScore];
     const opponentScore = [...this.state.opponentScore];
-    const confirm = prompt("Do you want to submit the score . Yes to submit");
-    if (confirm) {
-      const details = this.state.ActDetails;
+    const details = this.state.ActDetails;
 
-      if (playerScore[index] && opponentScore[index]) {
-        details[player].score =
-          parseInt(details[player].score, 10) +
-          parseInt(playerScore[index], 10);
-        details[player].totalMatches = details[player].totalMatches + 1;
-        details[opponent].score =
-          parseInt(details[opponent].score) + parseInt(opponentScore[index]);
-        details[opponent].totalMatches = details[opponent].totalMatches + 1;
+    if (playerScore[index] && opponentScore[index]) {
+      details[player].score =
+        parseInt(details[player].score, 10) + parseInt(playerScore[index], 10);
+      details[player].totalMatches = details[player].totalMatches + 1;
+      details[opponent].score =
+        parseInt(details[opponent].score) + parseInt(opponentScore[index]);
+      details[opponent].totalMatches = details[opponent].totalMatches + 1;
 
-        details[player].recieved =
-          parseInt(details[player].recieved, 10) +
-          parseInt(opponentScore[index], 10);
+      details[player].recieved =
+        parseInt(details[player].recieved, 10) +
+        parseInt(opponentScore[index], 10);
 
-        details[opponent].recieved =
-          parseInt(details[opponent].recieved, 10) +
-          parseInt(playerScore[index], 10);
+      details[opponent].recieved =
+        parseInt(details[opponent].recieved, 10) +
+        parseInt(playerScore[index], 10);
 
-        details[player].pointDifference =
-          details[player].score - details[player].recieved;
+      details[player].pointDifference =
+        details[player].score - details[player].recieved;
 
-        details[opponent].pointDifference =
-          details[opponent].score - details[opponent].recieved;
+      details[opponent].pointDifference =
+        details[opponent].score - details[opponent].recieved;
 
-        if (playerScore[index] > opponentScore[index]) {
-          details[player].matchesWon = details[player].matchesWon + 1;
-          details[opponent].matchesLost = details[opponent].matchesLost + 1;
+      if (playerScore[index] > opponentScore[index]) {
+        details[player].matchesWon = details[player].matchesWon + 1;
+        details[opponent].matchesLost = details[opponent].matchesLost + 1;
 
-          if (details[player].win) {
-            details[player].win = [
-              ...details[player].win,
-              {
-                opponent: opponent,
-                Difference: playerScore[index] - opponentScore[index],
-              },
-            ];
-          } else {
-            details[player].win = [
-              {
-                opponent: opponent,
-                Difference: playerScore[index] - opponentScore[index],
-              },
-            ];
-          }
-
-          if (details[opponent].lose) {
-            details[opponent].lose = [
-              ...details[opponent].lose,
-              {
-                opponent: player,
-                Difference: playerScore[index] - opponentScore[index],
-              },
-            ];
-          } else {
-            details[opponent].lose = [
-              {
-                opponent: player,
-                Difference: playerScore[index] - opponentScore[index],
-              },
-            ];
-          }
+        if (details[player].win) {
+          details[player].win = [
+            ...details[player].win,
+            {
+              opponent: opponent,
+              Difference: playerScore[index] - opponentScore[index],
+            },
+          ];
         } else {
-          details[opponent].matchesWon = details[opponent].matchesWon + 1;
-          details[player].matchesLost = details[player].matchesLost + 1;
-
-          if (details[opponent].win) {
-            details[opponent].win = [
-              ...details[opponent].win,
-              {
-                opponent: player,
-                Difference: opponentScore[index] - playerScore[index],
-              },
-            ];
-          } else {
-            details[opponent].win = [
-              {
-                opponent: player,
-                Difference: opponentScore[index] - playerScore[index],
-              },
-            ];
-          }
-
-          if (details[player].lose) {
-            details[player].lose = [
-              ...details[player].lose,
-              {
-                opponent: opponent,
-                Difference: opponentScore[index] - playerScore[index],
-              },
-            ];
-          } else {
-            details[player].lose = [
-              {
-                opponent: opponent,
-                Difference: opponentScore[index] - playerScore[index],
-              },
-            ];
-          }
+          details[player].win = [
+            {
+              opponent: opponent,
+              Difference: playerScore[index] - opponentScore[index],
+            },
+          ];
         }
-        const newScoreDetails = details.scoreDetails || [];
-        newScoreDetails[index] = {
-          playerScore: playerScore[index],
-          opponentScore: opponentScore[index],
-        };
-        details.scoreDetails = newScoreDetails;
-        fireBase
-          .database()
-          .ref()
-          .child("details")
-          .set(details)
-          .then(() => {
-            alert("Submitted Succesful");
-            this.setState({
-              ActDetails: details,
-            });
-          })
-          .catch(error => alert(error));
+
+        if (details[opponent].lose) {
+          details[opponent].lose = [
+            ...details[opponent].lose,
+            {
+              opponent: player,
+              Difference: playerScore[index] - opponentScore[index],
+            },
+          ];
+        } else {
+          details[opponent].lose = [
+            {
+              opponent: player,
+              Difference: playerScore[index] - opponentScore[index],
+            },
+          ];
+        }
       } else {
-        alert("Please Enter Both Opponent and Player Scores");
+        details[opponent].matchesWon = details[opponent].matchesWon + 1;
+        details[player].matchesLost = details[player].matchesLost + 1;
+
+        if (details[opponent].win) {
+          details[opponent].win = [
+            ...details[opponent].win,
+            {
+              opponent: player,
+              Difference: opponentScore[index] - playerScore[index],
+            },
+          ];
+        } else {
+          details[opponent].win = [
+            {
+              opponent: player,
+              Difference: opponentScore[index] - playerScore[index],
+            },
+          ];
+        }
+
+        if (details[player].lose) {
+          details[player].lose = [
+            ...details[player].lose,
+            {
+              opponent: opponent,
+              Difference: opponentScore[index] - playerScore[index],
+            },
+          ];
+        } else {
+          details[player].lose = [
+            {
+              opponent: opponent,
+              Difference: opponentScore[index] - playerScore[index],
+            },
+          ];
+        }
       }
+      const newScoreDetails = details.scoreDetails || [];
+      newScoreDetails[index] = {
+        playerScore: playerScore[index],
+        opponentScore: opponentScore[index],
+      };
+      details.scoreDetails = newScoreDetails;
+      fireBase
+        .database()
+        .ref()
+        .child("details")
+        .set(details)
+        .then(() => {
+          alert("Submitted Succesful");
+          this.setState({
+            ActDetails: details,
+          });
+        })
+        .catch(error => alert(error));
     } else {
-      return;
+      alert("Please Enter Both Opponent and Player Scores");
     }
   };
 
@@ -194,14 +188,14 @@ class Table extends React.Component {
         details[player].score - details[player].recieved;
       details[opponent].pointDifference =
         details[opponent].score - details[opponent].recieved;
-      details[player].win=details[player].win.filter(detail => {
+      details[player].win = details[player].win.filter(detail => {
         if (detail.opponent === opponent) {
           return null;
         } else {
           return detail;
         }
       });
-     details[opponent].lose=details[opponent].lose.filter(detail => {
+      details[opponent].lose = details[opponent].lose.filter(detail => {
         if (detail.opponent === player) {
           return null;
         } else {
@@ -221,14 +215,14 @@ class Table extends React.Component {
         details[opponent].score - details[opponent].recieved;
       details[player].pointDifference =
         details[player].score - details[player].recieved;
-      details[opponent].win=details[opponent].win.filter(detail => {
+      details[opponent].win = details[opponent].win.filter(detail => {
         if (detail.opponent === player) {
           return null;
         } else {
           return detail;
         }
       });
-     details[player].lose= details[player].lose.filter(detail => {
+      details[player].lose = details[player].lose.filter(detail => {
         if (detail.opponent === opponent) {
           return null;
         } else {
@@ -236,11 +230,11 @@ class Table extends React.Component {
         }
       });
     }
-    details.scoreDetails.splice(index,1)
-    const newOpponentScore=[...this.state.opponentScore]
-    const newPlayerScore=[...this.state.playerScore]
-    newOpponentScore[index]="";
-    newPlayerScore[index]="";
+    details.scoreDetails.splice(index, 1);
+    const newOpponentScore = [...this.state.opponentScore];
+    const newPlayerScore = [...this.state.playerScore];
+    newOpponentScore[index] = "";
+    newPlayerScore[index] = "";
     fireBase
       .database()
       .ref()
@@ -250,8 +244,8 @@ class Table extends React.Component {
         alert("Deleted Succesful...You can now Edit");
         this.setState({
           ActDetails: details,
-          playerScore:newPlayerScore,
-          opponentScore:newOpponentScore
+          playerScore: newPlayerScore,
+          opponentScore: newOpponentScore,
         });
       })
       .catch(error => alert(error));

@@ -3,45 +3,46 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 }
 
 .TableData {
-    width: 1200px;
-    overflow-x: auto;
+  width: 80%;
+  overflow-x: auto;
 }
 
 .TableData table {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
   border: 1px solid #ddd;
   table-layout: fixed;
+  width: 100%;
 }
 
-.Table td,
-.Table tr {
+.TableData table tbody {
+  width: 900px;
+}
+
+.TableData  table td,
+.TableData table tr {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
   text-align: center;
   height: 35px;
-  min-width: 200px;
 }
 
-.Table td:nth-child(3) {
-  width: 46%
-}
 
-.Table th {
+.TableData table th {
   text-align: center;
   height: 50px;
-  min-width: 200px;
 }
 
-.Table tr:nth-child(even) {
+.TableData table tr:nth-child(even) {
   background-color: #dddddd;
 }
-.Table tr:nth-child(odd) {
+
+.TableData table tr:nth-child(odd) {
   background-color: white;
 }
 
@@ -59,7 +60,8 @@
   margin: 0 10px;
 }
 
-.SubmitButton,.EditButton {
+.SubmitButton,
+.EditButton {
   padding: 10px 15px;
   background-color: #00adb5;
   border: none;
@@ -73,13 +75,16 @@
   right: 0;
 }
 
-.SubmitButton:hover ,.EditButton:hover{
+.SubmitButton:hover,
+.EditButton:hover {
   transform: translateY(-1px);
 }
 
-.SubmitButton:active ,.EditButton:active{
+.SubmitButton:active,
+.EditButton:active {
   transform: translateY(0);
 }
+
 /* .SubmitButton:disabled{
   background-color: #c2e3e4;
 } */
