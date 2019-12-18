@@ -45,11 +45,8 @@ class Table extends React.Component {
   submitButtonHandler = (index, player, opponent) => {
     const playerScore = [...this.state.playerScore];
     const opponentScore = [...this.state.opponentScore];
-    console.log(playerScore[index]);
-    console.log(opponentScore[index]);
 
     const details = this.state.ActDetails;
-
     if (playerScore[index] && opponentScore[index]) {
       details[player].score =
         parseInt(details[player].score, 10) + parseInt(playerScore[index], 10);
@@ -260,6 +257,13 @@ class Table extends React.Component {
           <h2>Round {this.props.rounds}</h2>
           <div className={classes.TableData}>
             <table>
+              {this.props.showPoints ? (
+                <React.Fragment>
+                  <col width="10%" />
+                  <col width="30%" />
+                  <col width="50%" />
+                </React.Fragment>
+              ) : null}
               <tbody>
                 <tr>
                   <th>MATCH NUMBER</th>
