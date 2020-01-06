@@ -1,8 +1,8 @@
-import React from "react";
-import { storeResults } from "./Store/Action/ActionCreators";
-import { connect } from "react-redux";
-import fireBase from "./fireBaseConfig";
-import classes from "./Table.module.css";
+import React from 'react';
+import { storeResults } from './Store/Action/ActionCreators';
+import { connect } from 'react-redux';
+import fireBase from './fireBaseConfig';
+import classes from './Table.module.css';
 
 class Table extends React.Component {
   componentDidMount() {
@@ -153,17 +153,17 @@ class Table extends React.Component {
       fireBase
         .database()
         .ref()
-        .child("details")
+        .child('details')
         .set(details)
         .then(() => {
-          alert("Submitted Succesful");
+          alert('Submitted Succesful');
           this.setState({
             ActDetails: details,
           });
         })
         .catch(error => alert(error));
     } else {
-      alert("Please Enter Both Opponent and Player Scores");
+      alert('Please Enter Both Opponent and Player Scores');
     }
   };
 
@@ -233,15 +233,15 @@ class Table extends React.Component {
     details.scoreDetails.splice(index, 1);
     const newOpponentScore = [...this.state.opponentScore];
     const newPlayerScore = [...this.state.playerScore];
-    newOpponentScore[index] = "";
-    newPlayerScore[index] = "";
+    newOpponentScore[index] = '';
+    newPlayerScore[index] = '';
     fireBase
       .database()
       .ref()
-      .child("details")
+      .child('details')
       .set(details)
       .then(() => {
-        alert("Deleted Succesful...You can now Edit");
+        alert('Deleted Succesful...You can now Edit');
         this.setState({
           ActDetails: details,
           playerScore: newPlayerScore,
@@ -253,149 +253,166 @@ class Table extends React.Component {
   render() {
     if (this.props.showTable) {
       return (
-        <div className={classes.Table}>
-          <h2>Round {this.props.rounds}</h2>
-          <div className={classes.TableData}>
-            <table>
-              {this.props.showPoints ? (
-                <React.Fragment>
-                  <col width="10%" />
-                  <col width="30%" />
-                  <col width="50%" />
-                </React.Fragment>
-              ) : null}
-              <tbody>
-                <tr>
-                  <th>MATCH NUMBER</th>
-                  <th>MATCH</th>
-                  {this.props.showPoints ? (
-                    <th>SCORE ( The Game point : {this.props.points} )</th>
-                  ) : null}
-                </tr>
-                {this.props.choosedPlayers.map((player, index) => {
-                  return (
-                    <tr>
-                      <td>{index + 1}</td>
-                      <td>
-                        {player.toUpperCase() +
-                          " vs " +
-                          this.props.choosedOpponents[index].toUpperCase()}
-                      </td>
-                      {this.props.showPoints ? (
+        <div>
+          <div className={classes.Table}>
+            <h2>Round {this.props.rounds}</h2>
+            <div className={classes.TableData}>
+              <table>
+                {this.props.showPoints ? (
+                  <React.Fragment>
+                    <col width='10%' />
+                    <col width='30%' />
+                    <col width='50%' />
+                  </React.Fragment>
+                ) : null}
+                <tbody>
+                  <tr>
+                    <th>MATCH NUMBER</th>
+                    <th>MATCH</th>
+                    {this.props.showPoints ? (
+                      <th>SCORE ( The Game point : {this.props.points} )</th>
+                    ) : null}
+                  </tr>
+                  {this.props.choosedPlayers.map((player, index) => {
+                    return (
+                      <tr>
+                        <td>{index + 1}</td>
                         <td>
-                          <div className={classes.Scores}>
-                            {player + " score:"}
-                            <input
-                              type="text"
-                              className={classes.PlayerScore}
-                              onChange={event =>
-                                this.playerScoreHandler(
-                                  event,
-                                  index +
-                                    (this.props.rounds - 1) *
-                                      this.props.totalMatches,
-                                )
-                              }
-                              value={
-                                this.state.playerScore[
-                                  index +
-                                    (this.props.rounds - 1) *
-                                      this.props.totalMatches
-                                ]
-                              }
-                              disabled={
-                                this.state.ActDetails.scoreDetails
-                                  ? this.state.ActDetails.scoreDetails[
-                                      index +
-                                        (this.props.rounds - 1) *
-                                          this.props.totalMatches
-                                    ]
-                                    ? true
-                                    : false
-                                  : false
-                              }
-                              onKeyDown={event => {
-                                if (event.key === "Enter")
-                                  this.submitButtonHandler(
+                          {player.toUpperCase() +
+                            ' vs ' +
+                            this.props.choosedOpponents[index].toUpperCase()}
+                        </td>
+                        {this.props.showPoints ? (
+                          <td>
+                            <div className={classes.Scores}>
+                              {player + ' score:'}
+                              <input
+                                type='text'
+                                className={classes.PlayerScore}
+                                onChange={event =>
+                                  this.playerScoreHandler(
+                                    event,
                                     index +
                                       (this.props.rounds - 1) *
                                         this.props.totalMatches,
-                                    player,
-                                    this.props.choosedOpponents[index],
-                                  );
-                              }}
-                            />
-                            {this.props.choosedOpponents[index] + " score:"}
-                            <input
-                              type="text"
-                              className={classes.PlayerScore}
-                              onChange={event =>
-                                this.opponentScoreHandler(
-                                  event,
-                                  index +
-                                    (this.props.rounds - 1) *
-                                      this.props.totalMatches,
-                                )
-                              }
-                              value={
-                                this.state.opponentScore[
-                                  index +
-                                    (this.props.rounds - 1) *
-                                      this.props.totalMatches
-                                ]
-                              }
-                              disabled={
-                                this.state.ActDetails.scoreDetails
-                                  ? this.state.ActDetails.scoreDetails[
-                                      index +
-                                        (this.props.rounds - 1) *
-                                          this.props.totalMatches
-                                    ]
-                                    ? true
-                                    : false
-                                  : false
-                              }
-                              onKeyDown={event => {
-                                if (event.key === "Enter")
-                                  this.submitButtonHandler(
+                                  )
+                                }
+                                value={
+                                  this.state.playerScore[
                                     index +
                                       (this.props.rounds - 1) *
-                                        this.props.totalMatches,
-                                    player,
-                                    this.props.choosedOpponents[index],
-                                  );
-                              }}
-                            />
-                            {this.state.ActDetails.scoreDetails ? (
-                              this.state.ActDetails.scoreDetails[
-                                index +
-                                  (this.props.rounds - 1) *
-                                    this.props.totalMatches
-                              ] ? (
-                                <button
-                                  className={classes.EditButton}
-                                  onClick={() =>
-                                    this.deleteButtonHandler(
+                                        this.props.totalMatches
+                                  ]
+                                }
+                                disabled={
+                                  this.state.ActDetails.scoreDetails
+                                    ? this.state.ActDetails.scoreDetails[
+                                        index +
+                                          (this.props.rounds - 1) *
+                                            this.props.totalMatches
+                                      ]
+                                      ? true
+                                      : false
+                                    : false
+                                }
+                                onKeyDown={event => {
+                                  if (event.key === 'Enter')
+                                    this.submitButtonHandler(
                                       index +
                                         (this.props.rounds - 1) *
                                           this.props.totalMatches,
                                       player,
                                       this.props.choosedOpponents[index],
-                                      this.state.playerScore[
+                                    );
+                                }}
+                              />
+                              {this.props.choosedOpponents[index] + ' score:'}
+                              <input
+                                type='text'
+                                className={classes.PlayerScore}
+                                onChange={event =>
+                                  this.opponentScoreHandler(
+                                    event,
+                                    index +
+                                      (this.props.rounds - 1) *
+                                        this.props.totalMatches,
+                                  )
+                                }
+                                value={
+                                  this.state.opponentScore[
+                                    index +
+                                      (this.props.rounds - 1) *
+                                        this.props.totalMatches
+                                  ]
+                                }
+                                disabled={
+                                  this.state.ActDetails.scoreDetails
+                                    ? this.state.ActDetails.scoreDetails[
                                         index +
                                           (this.props.rounds - 1) *
                                             this.props.totalMatches
-                                      ],
-                                      this.state.opponentScore[
+                                      ]
+                                      ? true
+                                      : false
+                                    : false
+                                }
+                                onKeyDown={event => {
+                                  if (event.key === 'Enter')
+                                    this.submitButtonHandler(
+                                      index +
+                                        (this.props.rounds - 1) *
+                                          this.props.totalMatches,
+                                      player,
+                                      this.props.choosedOpponents[index],
+                                    );
+                                }}
+                              />
+                              {this.state.ActDetails.scoreDetails ? (
+                                this.state.ActDetails.scoreDetails[
+                                  index +
+                                    (this.props.rounds - 1) *
+                                      this.props.totalMatches
+                                ] ? (
+                                  <button
+                                    className={classes.EditButton}
+                                    onClick={() =>
+                                      this.deleteButtonHandler(
                                         index +
                                           (this.props.rounds - 1) *
-                                            this.props.totalMatches
-                                      ],
-                                    )
-                                  }
-                                >
-                                  Delete
-                                </button>
+                                            this.props.totalMatches,
+                                        player,
+                                        this.props.choosedOpponents[index],
+                                        this.state.playerScore[
+                                          index +
+                                            (this.props.rounds - 1) *
+                                              this.props.totalMatches
+                                        ],
+                                        this.state.opponentScore[
+                                          index +
+                                            (this.props.rounds - 1) *
+                                              this.props.totalMatches
+                                        ],
+                                      )
+                                    }
+                                  >
+                                    Delete
+                                  </button>
+                                ) : (
+                                  <button
+                                    className={classes.SubmitButton}
+                                    onClick={() =>
+                                      this.submitButtonHandler(
+                                        index +
+                                          (this.props.rounds - 1) *
+                                            this.props.totalMatches,
+                                        player,
+                                        this.props.choosedOpponents[index],
+                                      )
+                                    }
+                                  >
+                                    Submit
+                                  </button>
+                                )
                               ) : (
                                 <button
                                   className={classes.SubmitButton}
@@ -411,31 +428,178 @@ class Table extends React.Component {
                                 >
                                   Submit
                                 </button>
-                              )
-                            ) : (
-                              <button
-                                className={classes.SubmitButton}
-                                onClick={() =>
-                                  this.submitButtonHandler(
+                              )}
+                            </div>
+                          </td>
+                        ) : null}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={classes.Schedule}>
+            <h2>Round {this.props.rounds}</h2>
+            {this.props.choosedPlayers.map((player, index) => {
+              return (
+                <div className={classes.eachSchedule}>
+                  <p>{index + 1}.{player.toUpperCase() +
+                      ' vs ' +
+                      this.props.choosedOpponents[index].toUpperCase()}
+                  </p>
+                  {this.props.showPoints ? (
+                    <div>
+                      <div className={classes.Scores}>
+                        {player + ' score:'}
+                        <input
+                          type='text'
+                          className={classes.PlayerScore}
+                          onChange={event =>
+                            this.playerScoreHandler(
+                              event,
+                              index +
+                                (this.props.rounds - 1) *
+                                  this.props.totalMatches,
+                            )
+                          }
+                          value={
+                            this.state.playerScore[
+                              index +
+                                (this.props.rounds - 1) *
+                                  this.props.totalMatches
+                            ]
+                          }
+                          disabled={
+                            this.state.ActDetails.scoreDetails
+                              ? this.state.ActDetails.scoreDetails[
+                                  index +
+                                    (this.props.rounds - 1) *
+                                      this.props.totalMatches
+                                ]
+                                ? true
+                                : false
+                              : false
+                          }
+                          onKeyDown={event => {
+                            if (event.key === 'Enter')
+                              this.submitButtonHandler(
+                                index +
+                                  (this.props.rounds - 1) *
+                                    this.props.totalMatches,
+                                player,
+                                this.props.choosedOpponents[index],
+                              );
+                          }}
+                        />
+                        {this.props.choosedOpponents[index] + ' score:'}
+                        <input
+                          type='text'
+                          className={classes.PlayerScore}
+                          onChange={event =>
+                            this.opponentScoreHandler(
+                              event,
+                              index +
+                                (this.props.rounds - 1) *
+                                  this.props.totalMatches,
+                            )
+                          }
+                          value={
+                            this.state.opponentScore[
+                              index +
+                                (this.props.rounds - 1) *
+                                  this.props.totalMatches
+                            ]
+                          }
+                          disabled={
+                            this.state.ActDetails.scoreDetails
+                              ? this.state.ActDetails.scoreDetails[
+                                  index +
+                                    (this.props.rounds - 1) *
+                                      this.props.totalMatches
+                                ]
+                                ? true
+                                : false
+                              : false
+                          }
+                          onKeyDown={event => {
+                            if (event.key === 'Enter')
+                              this.submitButtonHandler(
+                                index +
+                                  (this.props.rounds - 1) *
+                                    this.props.totalMatches,
+                                player,
+                                this.props.choosedOpponents[index],
+                              );
+                          }}
+                        />
+                        {this.state.ActDetails.scoreDetails ? (
+                          this.state.ActDetails.scoreDetails[
+                            index +
+                              (this.props.rounds - 1) * this.props.totalMatches
+                          ] ? (
+                            <button
+                              className={classes.EditButton}
+                              onClick={() =>
+                                this.deleteButtonHandler(
+                                  index +
+                                    (this.props.rounds - 1) *
+                                      this.props.totalMatches,
+                                  player,
+                                  this.props.choosedOpponents[index],
+                                  this.state.playerScore[
                                     index +
                                       (this.props.rounds - 1) *
-                                        this.props.totalMatches,
-                                    player,
-                                    this.props.choosedOpponents[index],
-                                  )
-                                }
-                              >
-                                Submit
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                      ) : null}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                                        this.props.totalMatches
+                                  ],
+                                  this.state.opponentScore[
+                                    index +
+                                      (this.props.rounds - 1) *
+                                        this.props.totalMatches
+                                  ],
+                                )
+                              }
+                            >
+                              Delete
+                            </button>
+                          ) : (
+                            <button
+                              className={classes.SubmitButton}
+                              onClick={() =>
+                                this.submitButtonHandler(
+                                  index +
+                                    (this.props.rounds - 1) *
+                                      this.props.totalMatches,
+                                  player,
+                                  this.props.choosedOpponents[index],
+                                )
+                              }
+                            >
+                              Submit
+                            </button>
+                          )
+                        ) : (
+                          <button
+                            className={classes.SubmitButton}
+                            onClick={() =>
+                              this.submitButtonHandler(
+                                index +
+                                  (this.props.rounds - 1) *
+                                    this.props.totalMatches,
+                                player,
+                                this.props.choosedOpponents[index],
+                              )
+                            }
+                          >
+                            Submit
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
           </div>
         </div>
       );
