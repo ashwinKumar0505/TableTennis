@@ -1,4 +1,4 @@
-.SavedSchedule{
+.SavedSchedule {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -18,13 +18,12 @@
   margin: 10px;
   outline: none;
   cursor: pointer;
-  transform: translateY(0);
-  transition: transform 0.3s;
+  border-radius: 5px;
 }
 
 .deleteSchedule:hover {
-  transform: translateY(-3px);
-  box-shadow: white 1px 3px 4px 1px;
+  box-shadow: white 0px 0px 1px 1px;
+
 }
 
 .deleteSchedule:active {

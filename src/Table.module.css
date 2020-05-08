@@ -78,16 +78,17 @@
   cursor: pointer;
   position: absolute;
   right: 0;
+  border-radius: 5px;
 }
 
 .SubmitButton:hover,
 .EditButton:hover {
-  transform: translateY(-1px);
+  transform: scale(1.05);
 }
 
 .SubmitButton:active,
 .EditButton:active {
-  transform: translateY(0);
+  transform: scale(1);
 }
 
 /* .SubmitButton:disabled{

@@ -24,12 +24,12 @@
   margin: 10px;
   width: 250px;
   outline: none;
-  transition: border 0.4s;
+  transition: border-bottom 0.3s;
+  border-radius: 5px;
 }
 
 .totalPlayers:focus {
-  border: 3px solid #669934;
-  ;
+  border-bottom: 3px solid #00adb5;
 }
 
 .generate,
@@ -43,15 +43,15 @@
   margin: 10px;
   outline: none;
   cursor: pointer;
-  transform: translateY(0);
-  transition: transform 0.3s;
+  border-radius: 5px;
 }
 
 .generate:hover,
 .saveSchedule:hover {
-  transform: translateY(-3px);
-  box-shadow: white 1px 3px 4px 1px;
+  box-shadow: white 0px 0px 1px 1px;
 }
+
+
 
 .generate:active,
 .saveSchedule:active {
@@ -94,12 +94,13 @@
   width: 250px;
   outline: none;
   transition: border 0.3s;
+  border-radius: 5px;
 }
 
 .players:focus,
 .rounds:focus,
 .points:focus {
-  border: 3px solid #669934;
+  border-bottom: 3px solid #00adb5;
   ;
 }
 
