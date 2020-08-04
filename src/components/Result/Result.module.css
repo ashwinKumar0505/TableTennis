@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .InnerResultDiv {
@@ -70,20 +71,23 @@
   animation-name: upToDown;
   animation-duration: 1s;
 }
-.FullForm{
+
+.FullForm {
   display: flex;
   flex-direction: column;
   justify-content: right;
 }
-.FullForm span{
+
+.FullForm span {
   font-weight: 600;
 }
 
-@keyframes upToDown{
-  0%{
+@keyframes upToDown {
+  0% {
     max-height: 0;
   }
-  100%{
+
+  100% {
     max-height: 1000px;
   }
 }

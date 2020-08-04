@@ -1,6 +1,6 @@
 import React from "react";
-import fireBase from "../fireBaseConfig";
-import Table from "../Table";
+import fireBase from "../../fireBaseConfig";
+import Table from "../../Table";
 import classes from "./SavedSchedule.module.css";
 
 class SavedSchedule extends React.Component {

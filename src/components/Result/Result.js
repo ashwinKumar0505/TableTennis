@@ -1,6 +1,5 @@
 import React from "react";
-import fireBase from "../fireBaseConfig";
-import Spinner from "../Spinner/Spinner";
+import fireBase from "../../fireBaseConfig";
 import {
   IoIosArrowDropdownCircle,
   IoIosArrowDropupCircle,
@@ -14,7 +13,7 @@ class Result extends React.Component {
       .ref()
       .child("details")
       .once("value")
-      .then(Response => {
+      .then((Response) => {
         if (Response.val()) {
           const detailsObject = Response.val();
           delete detailsObject.scoreDetails;
@@ -66,7 +65,7 @@ class Result extends React.Component {
     data: "Loading...",
     showMoreDetailsName: "",
   };
-  showMoreDetails = name => {
+  showMoreDetails = (name) => {
     if (name === this.state.showMoreDetailsName) {
       this.setState({
         showMoreDetailsName: "",
@@ -116,7 +115,7 @@ class Result extends React.Component {
               <tr className={classes.WinLoseDetails}>
                 <td colSpan="8">
                   {details[index].win
-                    ? details[index].win.map(match => {
+                    ? details[index].win.map((match) => {
                         return (
                           <div style={{ paddingBottom: "10px" }}>
                             Won against {match.opponent} by {match.Difference}{" "}
@@ -126,7 +125,7 @@ class Result extends React.Component {
                       })
                     : null}
                   {details[index].lose
-                    ? details[index].lose.map(match => {
+                    ? details[index].lose.map((match) => {
                         return (
                           <div style={{ paddingBottom: "10px" }}>
                             Lost against {match.opponent} by {match.Difference}{" "}
@@ -166,13 +165,21 @@ class Result extends React.Component {
                 </tbody>
               </table>
               <div className={classes.FullForm}>
-                <p><span>PS</span>-->Points Scored</p>
-                <p><span>PR</span>-->Points Recieved</p>
-                <p><span>PD</span>-->Points Difference</p>
-            </div>
+                <p>
+                  <span>PS</span>--&gt;Points Scored
+                </p>
+                <p>
+                  <span>PR</span>--&gt;Points Recieved
+                </p>
+                <p>
+                  <span>PD</span>--&gt;Points Difference
+                </p>
+              </div>
             </div>
           ) : (
-            <h3 style={{ padding: "20px",textAlign:"center" }}>{this.state.data}</h3>
+            <h3 style={{ padding: "20px", textAlign: "center" }}>
+              {this.state.data}
+            </h3>
           )}
         </div>
       </div>

@@ -1,8 +1,8 @@
-import React from 'react';
-import { storeResults } from './Store/Action/ActionCreators';
-import { connect } from 'react-redux';
-import fireBase from './fireBaseConfig';
-import classes from './Table.module.css';
+import React from "react";
+import { storeResults } from "./Store/Action/ActionCreators";
+import { connect } from "react-redux";
+import fireBase from "./fireBaseConfig";
+import classes from "./Table.module.css";
 
 class Table extends React.Component {
   componentDidMount() {
@@ -10,7 +10,7 @@ class Table extends React.Component {
     const newOpponentScore = [...this.state.opponentScore];
     if (this.props.details) {
       if (this.props.details.scoreDetails) {
-        this.props.details.scoreDetails.map((scoreDetail, index) => {
+        this.props.details.scoreDetails.forEach((scoreDetail, index) => {
           newPlayerScore[index] = scoreDetail.playerScore;
           newOpponentScore[index] = scoreDetail.opponentScore;
         });
@@ -153,17 +153,17 @@ class Table extends React.Component {
       fireBase
         .database()
         .ref()
-        .child('details')
+        .child("details")
         .set(details)
         .then(() => {
-          alert('Submitted Succesful');
+          alert("Submitted Succesful");
           this.setState({
             ActDetails: details,
           });
         })
-        .catch(error => alert(error));
+        .catch((error) => alert(error));
     } else {
-      alert('Please Enter Both Opponent and Player Scores');
+      alert("Please Enter Both Opponent and Player Scores");
     }
   };
 
@@ -172,7 +172,7 @@ class Table extends React.Component {
     player,
     opponent,
     playerScore,
-    opponentScore,
+    opponentScore
   ) => {
     const details = this.state.ActDetails;
     if (playerScore > opponentScore) {
@@ -188,14 +188,14 @@ class Table extends React.Component {
         details[player].score - details[player].recieved;
       details[opponent].pointDifference =
         details[opponent].score - details[opponent].recieved;
-      details[player].win = details[player].win.filter(detail => {
+      details[player].win = details[player].win.filter((detail) => {
         if (detail.opponent === opponent) {
           return null;
         } else {
           return detail;
         }
       });
-      details[opponent].lose = details[opponent].lose.filter(detail => {
+      details[opponent].lose = details[opponent].lose.filter((detail) => {
         if (detail.opponent === player) {
           return null;
         } else {
@@ -215,14 +215,14 @@ class Table extends React.Component {
         details[opponent].score - details[opponent].recieved;
       details[player].pointDifference =
         details[player].score - details[player].recieved;
-      details[opponent].win = details[opponent].win.filter(detail => {
+      details[opponent].win = details[opponent].win.filter((detail) => {
         if (detail.opponent === player) {
           return null;
         } else {
           return detail;
         }
       });
-      details[player].lose = details[player].lose.filter(detail => {
+      details[player].lose = details[player].lose.filter((detail) => {
         if (detail.opponent === opponent) {
           return null;
         } else {
@@ -233,22 +233,22 @@ class Table extends React.Component {
     details.scoreDetails.splice(index, 1);
     const newOpponentScore = [...this.state.opponentScore];
     const newPlayerScore = [...this.state.playerScore];
-    newOpponentScore[index] = '';
-    newPlayerScore[index] = '';
+    newOpponentScore[index] = "";
+    newPlayerScore[index] = "";
     fireBase
       .database()
       .ref()
-      .child('details')
+      .child("details")
       .set(details)
       .then(() => {
-        alert('Deleted Succesful...You can now Edit');
+        alert("Deleted Succesful...You can now Edit");
         this.setState({
           ActDetails: details,
           playerScore: newPlayerScore,
           opponentScore: newOpponentScore,
         });
       })
-      .catch(error => alert(error));
+      .catch((error) => alert(error));
   };
   render() {
     if (this.props.showTable) {
@@ -260,9 +260,9 @@ class Table extends React.Component {
               <table>
                 {this.props.showPoints ? (
                   <React.Fragment>
-                    <col width='10%' />
-                    <col width='30%' />
-                    <col width='50%' />
+                    <col width="10%" />
+                    <col width="30%" />
+                    <col width="50%" />
                   </React.Fragment>
                 ) : null}
                 <tbody>
@@ -279,22 +279,22 @@ class Table extends React.Component {
                         <td>{index + 1}</td>
                         <td>
                           {player.toUpperCase() +
-                            ' vs ' +
+                            " vs " +
                             this.props.choosedOpponents[index].toUpperCase()}
                         </td>
                         {this.props.showPoints ? (
                           <td>
                             <div className={classes.Scores}>
-                              {player + ' score:'}
+                              {player + " score:"}
                               <input
-                                type='text'
+                                type="text"
                                 className={classes.PlayerScore}
-                                onChange={event =>
+                                onChange={(event) =>
                                   this.playerScoreHandler(
                                     event,
                                     index +
                                       (this.props.rounds - 1) *
-                                        this.props.totalMatches,
+                                        this.props.totalMatches
                                   )
                                 }
                                 value={
@@ -315,27 +315,27 @@ class Table extends React.Component {
                                       : false
                                     : false
                                 }
-                                onKeyDown={event => {
-                                  if (event.key === 'Enter')
+                                onKeyDown={(event) => {
+                                  if (event.key === "Enter")
                                     this.submitButtonHandler(
                                       index +
                                         (this.props.rounds - 1) *
                                           this.props.totalMatches,
                                       player,
-                                      this.props.choosedOpponents[index],
+                                      this.props.choosedOpponents[index]
                                     );
                                 }}
                               />
-                              {this.props.choosedOpponents[index] + ' score:'}
+                              {this.props.choosedOpponents[index] + " score:"}
                               <input
-                                type='text'
+                                type="text"
                                 className={classes.PlayerScore}
-                                onChange={event =>
+                                onChange={(event) =>
                                   this.opponentScoreHandler(
                                     event,
                                     index +
                                       (this.props.rounds - 1) *
-                                        this.props.totalMatches,
+                                        this.props.totalMatches
                                   )
                                 }
                                 value={
@@ -356,14 +356,14 @@ class Table extends React.Component {
                                       : false
                                     : false
                                 }
-                                onKeyDown={event => {
-                                  if (event.key === 'Enter')
+                                onKeyDown={(event) => {
+                                  if (event.key === "Enter")
                                     this.submitButtonHandler(
                                       index +
                                         (this.props.rounds - 1) *
                                           this.props.totalMatches,
                                       player,
-                                      this.props.choosedOpponents[index],
+                                      this.props.choosedOpponents[index]
                                     );
                                 }}
                               />
@@ -391,7 +391,7 @@ class Table extends React.Component {
                                           index +
                                             (this.props.rounds - 1) *
                                               this.props.totalMatches
-                                        ],
+                                        ]
                                       )
                                     }
                                   >
@@ -406,7 +406,7 @@ class Table extends React.Component {
                                           (this.props.rounds - 1) *
                                             this.props.totalMatches,
                                         player,
-                                        this.props.choosedOpponents[index],
+                                        this.props.choosedOpponents[index]
                                       )
                                     }
                                   >
@@ -422,7 +422,7 @@ class Table extends React.Component {
                                         (this.props.rounds - 1) *
                                           this.props.totalMatches,
                                       player,
-                                      this.props.choosedOpponents[index],
+                                      this.props.choosedOpponents[index]
                                     )
                                   }
                                 >
@@ -444,23 +444,25 @@ class Table extends React.Component {
             {this.props.choosedPlayers.map((player, index) => {
               return (
                 <div className={classes.eachSchedule}>
-                  <p>{index + 1}.{player.toUpperCase() +
-                      ' vs ' +
+                  <p>
+                    {index + 1}.
+                    {player.toUpperCase() +
+                      " vs " +
                       this.props.choosedOpponents[index].toUpperCase()}
                   </p>
                   {this.props.showPoints ? (
                     <div>
                       <div className={classes.Scores}>
-                        {player + ' score:'}
+                        {player + " score:"}
                         <input
-                          type='text'
+                          type="text"
                           className={classes.PlayerScore}
-                          onChange={event =>
+                          onChange={(event) =>
                             this.playerScoreHandler(
                               event,
                               index +
                                 (this.props.rounds - 1) *
-                                  this.props.totalMatches,
+                                  this.props.totalMatches
                             )
                           }
                           value={
@@ -481,27 +483,27 @@ class Table extends React.Component {
                                 : false
                               : false
                           }
-                          onKeyDown={event => {
-                            if (event.key === 'Enter')
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter")
                               this.submitButtonHandler(
                                 index +
                                   (this.props.rounds - 1) *
                                     this.props.totalMatches,
                                 player,
-                                this.props.choosedOpponents[index],
+                                this.props.choosedOpponents[index]
                               );
                           }}
                         />
-                        {this.props.choosedOpponents[index] + ' score:'}
+                        {this.props.choosedOpponents[index] + " score:"}
                         <input
-                          type='text'
+                          type="text"
                           className={classes.PlayerScore}
-                          onChange={event =>
+                          onChange={(event) =>
                             this.opponentScoreHandler(
                               event,
                               index +
                                 (this.props.rounds - 1) *
-                                  this.props.totalMatches,
+                                  this.props.totalMatches
                             )
                           }
                           value={
@@ -522,14 +524,14 @@ class Table extends React.Component {
                                 : false
                               : false
                           }
-                          onKeyDown={event => {
-                            if (event.key === 'Enter')
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter")
                               this.submitButtonHandler(
                                 index +
                                   (this.props.rounds - 1) *
                                     this.props.totalMatches,
                                 player,
-                                this.props.choosedOpponents[index],
+                                this.props.choosedOpponents[index]
                               );
                           }}
                         />
@@ -556,7 +558,7 @@ class Table extends React.Component {
                                     index +
                                       (this.props.rounds - 1) *
                                         this.props.totalMatches
-                                  ],
+                                  ]
                                 )
                               }
                             >
@@ -571,7 +573,7 @@ class Table extends React.Component {
                                     (this.props.rounds - 1) *
                                       this.props.totalMatches,
                                   player,
-                                  this.props.choosedOpponents[index],
+                                  this.props.choosedOpponents[index]
                                 )
                               }
                             >
@@ -587,7 +589,7 @@ class Table extends React.Component {
                                   (this.props.rounds - 1) *
                                     this.props.totalMatches,
                                 player,
-                                this.props.choosedOpponents[index],
+                                this.props.choosedOpponents[index]
                               )
                             }
                           >
@@ -609,7 +611,7 @@ class Table extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     storeResults: (winner, looser) => dispatch(storeResults(winner, looser)),
   };

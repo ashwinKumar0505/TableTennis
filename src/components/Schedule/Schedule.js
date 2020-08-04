@@ -1,6 +1,6 @@
 import React from "react";
-import Table from "../Table";
-import fireBase from "../fireBaseConfig";
+import Table from "../../Table";
+import fireBase from "../../fireBaseConfig";
 import "./Schedule.css";
 import Modal from "../Modal/Modal";
 
@@ -26,10 +26,10 @@ class Schedule extends React.Component {
       alert("please Fill the details to proceed");
       return;
     }
-    let newPlayers=[...this.state.players]
-    newPlayers=newPlayers.map(player=>player.toLowerCase())
+    let newPlayers = [...this.state.players];
+    newPlayers = newPlayers.map((player) => player.toLowerCase());
     let duplicate = false;
-    newPlayers.filter((player, index) => {
+    newPlayers.forEach((player, index) => {
       if (newPlayers.indexOf(player) !== index) {
         duplicate = true;
       }
@@ -88,19 +88,20 @@ class Schedule extends React.Component {
       totalMatches: totalMatches,
     });
 
-    players.map(player => {
+    players.forEach((player) => {
       let currentPlayer = player;
       let opponents = [];
       playerDetails[currentPlayer] = {
-        opponents: players.filter(player => {
+        opponents: players.filter((player) => {
           if (player !== currentPlayer) {
             opponents.push(player);
             return player;
           }
+          return null;
         }),
         totalRounds: 0,
       };
-      opponents.map(opponent => {
+      opponents.forEach((opponent) => {
         playerDetails[currentPlayer].playedWith = {
           ...playerDetails[currentPlayer].playedWith,
           [opponent]: 0,
@@ -118,7 +119,7 @@ class Schedule extends React.Component {
 
     let choosedOpponent;
 
-    const findPlayers = leaveThis => {
+    const findPlayers = (leaveThis) => {
       let flag = 1;
 
       let count = 0;
@@ -157,7 +158,7 @@ class Schedule extends React.Component {
       findOpponents(choosedPlayer);
     };
 
-    const findOpponents = choosedPlayer => {
+    const findOpponents = (choosedPlayer) => {
       let flagOpponent = 1;
 
       let checkedOpponents = [];
@@ -181,7 +182,7 @@ class Schedule extends React.Component {
         ) {
           opponentsToChoose.splice(
             opponentsToChoose.indexOf(choosedOpponent),
-            1,
+            1
           );
           choosedOpponent =
             opponentsToChoose[
@@ -272,7 +273,7 @@ class Schedule extends React.Component {
     });
   };
 
-  changeHandler = event => {
+  changeHandler = (event) => {
     this.setState({
       playersTotal: event.target.value,
     });
@@ -285,6 +286,10 @@ class Schedule extends React.Component {
     }
     if (this.state.playersTotal < 2) {
       alert("sorry , There should be atleast 2 players");
+      return;
+    }
+    if (this.state.playersTotal > 20) {
+      alert("There can be only 20 players.");
       return;
     }
     let newPlayers = [...this.state.players];
@@ -324,14 +329,14 @@ class Schedule extends React.Component {
       .database()
       .ref()
       .once("value")
-      .then(Response => {
+      .then((Response) => {
         const value = Response.val();
         if (value) {
           this.setState({
             loading: false,
           });
           const reschedule = window.prompt(
-            "You already have a schedule.To reschedule type yes else no",
+            "You already have a schedule.To reschedule type yes else no"
           );
           if (reschedule) {
             this.saveSchedule();
@@ -351,14 +356,14 @@ class Schedule extends React.Component {
           this.saveSchedule();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         alert("something went wrong");
       });
   };
 
   saveSchedule = () => {
     const details = {};
-    this.state.players.map(player => {
+    this.state.players.forEach((player) => {
       details[player] = {
         name: player,
         score: 0,
@@ -382,10 +387,10 @@ class Schedule extends React.Component {
         details: details,
         totalMatches: this.state.totalMatches,
       })
-      .then(Response => {
+      .then((Response) => {
         alert("The matches are scheduled");
       })
-      .catch(error => {
+      .catch((error) => {
         alert("something went wrong");
       });
     this.setState({
@@ -412,7 +417,7 @@ class Schedule extends React.Component {
             value={this.state.playersTotal}
             name="players"
             className="totalPlayers"
-            onKeyDown={event => {
+            onKeyDown={(event) => {
               if (event.key === "Enter") this.generatePlayers();
             }}
           />
@@ -430,8 +435,8 @@ class Schedule extends React.Component {
                   placeholder={"player " + (index + 1)}
                   className="players"
                   key={index}
-                  onChange={event => this.playersHandler(index, event)}
-                  onKeyDown={event => {
+                  onChange={(event) => this.playersHandler(index, event)}
+                  onKeyDown={(event) => {
                     if (event.key === "Enter") this.checkHandler();
                   }}
                 />
@@ -447,10 +452,10 @@ class Schedule extends React.Component {
                 type="text"
                 placeholder="Number of Rounds"
                 className="rounds"
-                onChange={event =>
+                onChange={(event) =>
                   this.setState({ rounds: event.target.value })
                 }
-                onKeyDown={event => {
+                onKeyDown={(event) => {
                   if (event.key === "Enter") this.checkHandler();
                 }}
               />
@@ -458,10 +463,10 @@ class Schedule extends React.Component {
                 type="text"
                 placeholder="Number of Match Points"
                 className="points"
-                onChange={event =>
+                onChange={(event) =>
                   this.setState({ points: event.target.value })
                 }
-                onKeyDown={event => {
+                onKeyDown={(event) => {
                   if (event.key === "Enter") this.checkHandler();
                 }}
               />
